@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards } from '@nestjs/common';
 import {Response} from 'express'
 import PostgreStatusCode from 'src/enums/PostgresErrorCode';
+import { AuthGuard } from 'src/guard/auth.guard';
 import { BrandsService } from './brands.service';
 import { BrandRequestDto } from './dto/request.dto';
 import { BrandResponseDto } from './dto/response.dto';
 
 @Controller('brands')
+@UseGuards(AuthGuard)
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
