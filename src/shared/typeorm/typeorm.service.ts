@@ -10,7 +10,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
    */
   public createTypeOrmOptions(): TypeOrmModuleOptions {
     dotenv.config();
-    console.log("config",process.env.DATABASE_HOST)
+    console.log("config",process.env.DATABASE_NAME)
     return {
       type: 'postgres',
       host: process.env.DATABASE_HOST,

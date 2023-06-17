@@ -1,5 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -18,7 +19,14 @@ export class AuthGuard implements CanActivate {
     } else {
         let index = request.res.req.rawHeaders.findIndex(indexFind)
         if(index != -1) {
+          const BearerToken = request.res.req.rawHeaders[index + 1]
+          const token = BearerToken.split('Bearer')[1]
+          const user = jwtDecode(token)
+          if(user) {
             return true
+          } else {
+            return false
+          }
         } else {
             return false
         }

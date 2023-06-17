@@ -9,6 +9,9 @@ import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ScheduleModule } from '@nestjs/schedule';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './common/helper/exception-filter';
+import { BrandsModule } from './entities/brands/brands.module';
 
 const envFilePath: string = getEnvPath(`/common/envs`);
 dotenv.config();
@@ -38,8 +41,14 @@ dotenv.config();
         from:`${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM_MAIL}>`,
       }
     }),
+    BrandsModule
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

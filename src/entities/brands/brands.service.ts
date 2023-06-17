@@ -3,6 +3,7 @@ import { BaseService } from 'src/common/services/base.service';
 import { Repository } from 'typeorm';
 import { BrandRequestDto } from './dto/request.dto';
 import { BrandResponseDto } from './dto/response.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Brand } from './entities/brand.entity';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class BrandsService {
   private brandRep: BaseService<Brand>;
 
   constructor(
-    private brandRepository: Repository<Brand>,
+    @InjectRepository(Brand) private brandRepository: Repository<Brand>,
   ) {
     this.brandRep = new BaseService<Brand>(this.brandRepository);
   }
