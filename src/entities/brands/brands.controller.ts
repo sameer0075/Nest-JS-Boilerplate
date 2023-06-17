@@ -12,18 +12,18 @@ import { BrandResponseDto } from './dto/response.dto';
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
-  @Post("/")
+  @Post("")
   async create(@LoggedInUser() user,@Res() response: Response,@Body() body:BrandRequestDto):Promise<BrandResponseDto> {
     try {
       const data = await this.brandsService.create(body)
       response.status(PostgreStatusCode.SuccessCode).send(data)
       return data
     } catch(err) {
-      response.status(PostgreStatusCode.AuthorizationError).send(err)
+      response.status(PostgreStatusCode.AuthorizationError).send({error:true,message:err})
     }
   }
 
-  @Get("/")
+  @Get("")
   async findAll(@LoggedInUser() user,@Res() response: Response):Promise<BrandResponseDto[]> {
     try {
       console.log("user",user)
@@ -31,19 +31,18 @@ export class BrandsController {
       response.status(PostgreStatusCode.SuccessCode).send(data)
       return data;
     } catch(err) {
-      console.log("err",err)
-      response.status(PostgreStatusCode.AuthorizationError).send(err)
+      response.status(PostgreStatusCode.AuthorizationError).send({error:true,message:err})
     }
   }
 
-  @Get('/:id')
+  @Get(':id')
   async findOne(@LoggedInUser() user,@Res() response: Response,@Param('id',ParseIntPipe) id: number):Promise<BrandResponseDto> {
     try {
       const data = await this.brandsService.findOne(id)
       response.status(PostgreStatusCode.SuccessCode).send(data)
       return data;
     } catch(err) {
-      response.status(PostgreStatusCode.AuthorizationError).send(err)
+      response.status(PostgreStatusCode.AuthorizationError).send({error:true,message:err})
     }
   }
 
@@ -53,7 +52,7 @@ export class BrandsController {
       const data = await this.brandsService.remove(id)
       response.status(PostgreStatusCode.SuccessCode).send(data)
     } catch(err) {
-      response.status(PostgreStatusCode.AuthorizationError).send(err)
+      response.status(PostgreStatusCode.AuthorizationError).send({error:true,message:err})
     }
   }
 }

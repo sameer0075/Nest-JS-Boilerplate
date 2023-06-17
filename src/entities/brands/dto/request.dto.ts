@@ -7,6 +7,7 @@ export class BrandRequestDto {
     name: string;
   
     @IsString()
-    @IsOptional()
+    @IsNotEmpty()
+    @MinLength(3)
     description: string;
   }

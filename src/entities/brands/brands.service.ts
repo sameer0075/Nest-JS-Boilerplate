@@ -33,7 +33,11 @@ export class BrandsService {
       select:['id','name','description'],
       where:{id}
     })
-    return data
+    if(data) {
+      return data
+    } else {
+      throw "Brand not found"
+    }
   }
 
   async update(id: number, body: BrandRequestDto):Promise<BrandResponseDto> {
